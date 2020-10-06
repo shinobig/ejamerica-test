@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './App.scss';
+import { connect } from 'react-redux';
 import UsersMainContent from './components/usersMainContent/usersMainContent';
 import SideNav from './components/sideNav/sideNav';
-import { initialData } from './model/databaseCreation/dataBaseAccess'
+import AddEdotModal from './components/addEditModal/addEditModal';
+import { initialData } from './model/databaseCreation/dataBaseAccess';
 
 class App extends Component {
 
@@ -13,6 +15,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="row">
+          {this.props.showAddEditModal ? (<AddEdotModal />) : ''}
           <div className="col-md-4 col-xl-2 col-sm-12">
             <SideNav />
           </div>
@@ -25,4 +28,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    showAddEditModal: state.userInformationReducer.showAddEditModal
+  }
+}
+
+export default connect(mapStateToProps)(App);

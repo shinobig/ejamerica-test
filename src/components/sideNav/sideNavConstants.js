@@ -1,1 +1,4 @@
 export const SHOW_ALL_USERS = "SHOW_ALL_USERS";
+export const ADD_NEW_USER = "ADD_NEW_USER";
+export const CREATE_RANDOM_USER = "CREATE_RANDOM_USER";
+export const DELETE_ALL_USERS = "DELETE_ALL_USERS";
