@@ -1,0 +1,52 @@
+// Main colors
+$light-gray: #eeeeee;
+$main-gray: #424242;
+$dark-gray: #212121;
+
+// Fonts
+$title: 'Montserrat', sans-serif;
+$main-text: 'Courier Prime', monospace;
+
+body{
+  background-color: $light-gray; 
+}
+
+.main-users-content{
+  overflow-y: scroll;
+  max-height: 100vh;
+}
+
+.side-nav{
+  background-color: $main-gray;
+  padding-top: 3em;
+  min-height: 100vh;
+
+  &-btn{
+    background-color: $main-gray;
+    font-family: $main-text;
+    color: white;
+    text-align: center;
+    padding: .5em;
+    margin: .5em 0em .5em 0em;
+    border: 1px solid white;
+    font-size: 1em;
+  }
+
+  &-btn:hover{
+    background-color: $dark-gray;
+    cursor: pointer;
+  }
+
+}
+
+.user-card{
+  background-color: white;
+  padding: 1em;
+  margin: .5em 0em .5em 0em;
+  border: 2px solid $dark-gray;
+
+
+  &-name{
+    font-family: $title;
+  }
+}
