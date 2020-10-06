@@ -1,6 +1,7 @@
 
 import { GET_INITIAL_DATA } from './userMainContentConstants';
 import { DELETE_ALL_USERS, SHOW_ALL_USERS, ADD_NEW_USER, CREATE_RANDOM_USER } from '../sideNav/sideNavConstants';
+import { EDIT_USER } from '../userCardComponent/userCardComponentConstants'
 
 export const userInformationReducer = (state = {
   allUsers: [],
@@ -8,6 +9,7 @@ export const userInformationReducer = (state = {
   usersToDisplay: [],
   editableUser: [],
   showAddEditModal: true,
+  modalType: '',
 }, action) => {
   switch (action.type) {
     case GET_INITIAL_DATA:
@@ -33,10 +35,21 @@ export const userInformationReducer = (state = {
       };
     case ADD_NEW_USER:
       console.log(state);
-      break;
+      return {
+        ...state,
+        showAddEditModal: true,
+        modalType: 'newUser'
+      }
     case CREATE_RANDOM_USER:
       console.log(state);
       break;
+    case EDIT_USER:
+      console.log(state);
+      return {
+        ...state,
+        showAddEditModal: true,
+        modalType: 'editUser'
+      }
     default:
       return state;
   }
