@@ -3,6 +3,7 @@ import { DELETE_ALL_USERS, SHOW_ALL_USERS, ADD_NEW_USER, CREATE_RANDOM_USER } fr
 import { EDIT_USER } from '../userCardComponent/userCardComponentConstants';
 import { CANCEL_ADD_EDIT, SAVE_EDIT, SAVE_NEW_USER, NAME_EDIT, EMAIL_EDIT, AGE_EDIT, PHONE_EDIT } from '../addEditModal/addEditModalConstants';
 import { listOfUsers } from '../../model/databaseCreation/listOfUsers';
+import { validateName } from '../utils/auth';
 
 export const userInformationReducer = (state = {
   allUsers: [...listOfUsers],
@@ -10,6 +11,13 @@ export const userInformationReducer = (state = {
   editableUser: {},
   showAddEditModal: false,
   modalType: '',
+  errorType: {
+    nameErrors: [],
+    ageErrors: [],
+    relocationErrors: [],
+    phoneErrors: [],
+    emailErrors: [],
+  },
 }, action) => {
   switch (action.type) {
     case SHOW_ALL_USERS:
@@ -42,7 +50,7 @@ export const userInformationReducer = (state = {
         modalType: 'newUser'
       }
     case CREATE_RANDOM_USER:
-      console.log(state);
+      return state;
       break;
     case EDIT_USER:
       const foundUser = state.allUsers.filter(user => user.id === action.data);
@@ -95,6 +103,12 @@ export const userInformationReducer = (state = {
         editableUser: editPhone,
       }
     case SAVE_EDIT:
+      // Validate username
+      let isValidName = validateName(state.editableUser.name);
+
+console.log(isValidName);
+
+/*
       let allUsersReplace = [...state.allUsers];
       allUsersReplace[allUsersReplace.findIndex(user => user.id === state.editableUser.id)] = { ...state.editableUser };
 
@@ -105,7 +119,8 @@ export const userInformationReducer = (state = {
         editableUser: {},
         showAddEditModal: false,
         modalType: ''
-      }
+      }*/
+      return state;
     case SAVE_NEW_USER:
       const allUsersWithNew = [...state.allUsers];
       allUsersWithNew.push(state.editableUser);
