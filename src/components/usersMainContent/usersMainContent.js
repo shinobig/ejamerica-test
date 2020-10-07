@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { getInitialData } from './userMainContentActions';
 import { connect } from 'react-redux';
 import UserCardComponent from '../userCardComponent/userCardComponent';
 
 class UsersMainContent extends Component {
   render() {
-    console.log(this.props.usersToDisplay)
     const userCards = this.props.usersToDisplay.map(user => (<UserCardComponent user={user} userName={user.name} key={`user-card-${user.id}`} id={user.id} />));
     return (
       <div className="row">
@@ -14,25 +12,15 @@ class UsersMainContent extends Component {
           {userCards}
         </div>
       </div>
-
     );
   }
 
 }
 
 const mapStateToProps = state => {
-  //  console.log(state)
   return {
-    //  usersToDisplay: state.userInformationReducer.usersToDisplay,
-    usersToDisplay: state.userInformationReducer.allUsers,
+    usersToDisplay: state.userInformationReducer.usersToDisplay,
   }
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    showAllUsers: () => dispatch(getInitialData())
-    //showAllUsers: () => dispatch(getInitialData())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(UsersMainContent);
+export default connect(mapStateToProps)(UsersMainContent);

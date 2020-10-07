@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { showAllUsers, deleteAllUsers } from './sideNavActions';
+import { showAllUsers, deleteAllUsers, addNewUser } from './sideNavActions';
 import NavBarBtn from '../commonComponents/navBarBtn/navBarBtn';
 
 class SideNav extends Component {
@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch) => {
       id: 'button-2'
     },
     addUser: {
-      action: () => dispatch(showAllUsers()),
+      action: () => dispatch(addNewUser()),
       name: 'Add new user',
       id: 'button-3'
     },

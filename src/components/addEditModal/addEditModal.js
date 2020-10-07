@@ -1,51 +1,84 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { cancelAddEdit, nameInputHandler, ageInputHandler, emailInputHandler, phoneInputHandler, saveEdit, saveNewUser } from './addEditModalActions';
 
 class addEditModal extends Component {
 
   render() {
-    let title;
-    if (this.props.typeOfModal === 'newUser') {
-      title = 'Add New User'
+
+    const {
+      name,
+      age,
+      email,
+      phoneNumber,
+      relocation,
+      imageURL,
+    } = this.props.editableUser
+    let formatNumber;
+
+    if (phoneNumber !== '') {
+      formatNumber = phoneNumber.toString().replace(/(\d{1})(\d{3})(\d{2})(\d{2})(\d{2})/, "+$1($2) $3 $4 $5");
+    }
+
+    let title, saveBtn, deleteBtn;
+    if (this.props.modalType === 'newUser') {
+      title = 'Add New User';
+      saveBtn = (<button className="add-edit-modal-form-btn save" onClick={this.props.onSaveNewUserChange}>Save</button>);
+      deleteBtn = '';
     } else {
-      title = 'Edit User'
+      title = 'Edit User';
+      saveBtn = (<button className="add-edit-modal-form-btn save" onClick={this.props.onSaveEditChange}>Save</button>);
+      deleteBtn = (<button className="add-edit-modal-form-btn save" onClick={this.props.onSaveEditChange}>Delete</button>);
     }
     return (
       <div className="col-md-12 add-edit-modal">
         <div className="add-edit-modal-background"></div>
         <div className="row  justify-content-md-center">
-          <div className="col-md-8 col-xl-8 add-edit-modal-form">
+          <div className="col-md-10 col-xl-10 add-edit-modal-form">
             <div className="row">
               <div className="col-md-12">
-                <h4>{title}</h4>
+                <h4>{title}</h4><span type="button" onClick={this.props.onCloseModal} className="fa fa-times close-icon" aria-hidden="true"></span>
               </div>
             </div>
-            <span class="fas fa-times"></span>
             <hr />
             <div className="row">
-              <div className="col-md-6 col-xs-12">
-                <h4>Name</h4>
-                <p>Don Juan</p>
+              <div className="col-md-3 col-xs-12">
+                <img alt={name} className="random-image" src={imageURL} width="100%"></img>
               </div>
-              <div className="col-md-6 col-xs-12">
-                <h4>Age</h4>
-                <p>99</p>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-6 col-xs-12">
-                <h4>Relocation</h4>
-                <p>Yes</p>
-              </div>
-              <div className="col-md-6 col-xs-12">
-                <h4>Phone</h4>
-                <p>999999</p>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-6 col-xs-12">
-                <h4>Email</h4>
-                <p>Nombresin</p>
+              <div className="col-md-9">
+                <div className="row label-row">
+                  <div className="col-md-8 col-xs-12">
+                    <label>Name</label>
+                    <input type="text" value={name} onChange={event => this.props.onNameInputChange(event)}></input>
+                  </div>
+                  <div className="col-md-4 col-xs-12">
+                    <label>Age</label>
+                    <input value={age} onChange={event => this.props.onAgeInputChange(event)} type="number"></input>
+                  </div>
+                </div>
+                <div className="row label-row">
+                  <div className="col-md-8 col-xs-12">
+                    <label>Email</label>
+                    <input value={email} onChange={event => this.props.onEmailInputChange(event)} type="text"></input>
+                  </div>
+                  <div className="col-md-4 col-xs-12">
+                    <label>Phone</label>
+                    <input value={formatNumber} onChange={event => this.props.onPhoneInputChange(event)} type="text"></input>
+                  </div>
+                </div>
+                <div className="row label-row">
+                  <div className="col-md-4 col-xs-12">
+                    <label>Relocation</label>
+                    <input type="checkbox"></input>
+                  </div>
+                  <div className="col-md-8 col-xs-12 btn-flex-box">
+                    {saveBtn}
+                    <button className="add-edit-modal-form-btn cancel" onClick={this.props.onCloseModal}>
+                      Cancel
+                    </button>
+                    {deleteBtn}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -56,16 +89,21 @@ class addEditModal extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     editableUser: state.userInformationReducer.editableUser,
-    typeOfModal: state.userInformationReducer.typeOfModal,
+    modalType: state.userInformationReducer.modalType,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    ...dispatch
+    onCloseModal: () => dispatch(cancelAddEdit()),
+    onNameInputChange: (event) => dispatch(nameInputHandler(event)),
+    onAgeInputChange: (event) => dispatch(ageInputHandler(event)),
+    onEmailInputChange: (event) => dispatch(emailInputHandler(event)),
+    onPhoneInputChange: (event) => dispatch(phoneInputHandler(event)),
+    onSaveEditChange: () => dispatch(saveEdit()),
+    onSaveNewUserChange: () => dispatch(saveNewUser()),
   }
 }
 

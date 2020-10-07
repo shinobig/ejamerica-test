@@ -1,0 +1,48 @@
+export const listOfUsers = [
+  {
+    id: 1,
+    name: 'Sibyl Roberts',
+    age: 59,
+    email: 'jerrell.lehner@noteg.xyz',
+    relocation: true,
+    imageURL: "https://picsum.photos/300?random&rnd" + Math.floor(Math.random() * 10000000000),
+    phoneNumber: Math.floor(Math.random() * 10000000000),
+  },
+  {
+    id: 2,
+    name: 'Tanya Grimes',
+    age: 36,
+    email: 'padberg.bessie@usabrains.us',
+    relocation: true,
+    imageURL: "https://picsum.photos/300?random&rnd" + Math.floor(Math.random() * 10000000000),
+    phoneNumber: Math.floor(Math.random() * 10000000000),
+  },
+  {
+    id: 3,
+    name: 'Torrance Leuschke',
+    age: 20,
+    email: 'casper.henry@iatarget.com',
+    relocation: true,
+    imageURL: "https://picsum.photos/300?random&rnd" + Math.floor(Math.random() * 10000000000),
+    phoneNumber: Math.floor(Math.random() * 10000000000),
+  },
+  {
+    id: 4,
+    name: 'Marcel Kiehn',
+    age: 41,
+    email: 'eulah06@guideliber.site',
+    relocation: true,
+    imageURL: "https://picsum.photos/300?random&rnd" + Math.floor(Math.random() * 10000000000),
+    phoneNumber: Math.floor(Math.random() * 10000000000),
+  },
+  {
+    id: 5,
+    name: 'Daryl Cruickshank',
+    age: 50,
+    email: 'esther33@gmailvn.net',
+    relocation: true,
+    imageURL: "https://picsum.photos/300?random&rnd" + Math.floor(Math.random() * 10000000000),
+    phoneNumber: Math.floor(Math.random() * 10000000000),
+  },
+];
+

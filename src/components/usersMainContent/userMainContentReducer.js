@@ -1,42 +1,43 @@
 
-import { GET_INITIAL_DATA } from './userMainContentConstants';
 import { DELETE_ALL_USERS, SHOW_ALL_USERS, ADD_NEW_USER, CREATE_RANDOM_USER } from '../sideNav/sideNavConstants';
-import { EDIT_USER } from '../userCardComponent/userCardComponentConstants'
+import { EDIT_USER } from '../userCardComponent/userCardComponentConstants';
+import { CANCEL_ADD_EDIT, SAVE_EDIT, SAVE_NEW_USER, NAME_EDIT, EMAIL_EDIT, AGE_EDIT, PHONE_EDIT } from '../addEditModal/addEditModalConstants';
+import { listOfUsers } from '../../model/databaseCreation/listOfUsers';
 
 export const userInformationReducer = (state = {
-  allUsers: [],
-  filteredUsers: [],
-  usersToDisplay: [],
-  editableUser: [],
-  showAddEditModal: true,
+  allUsers: [...listOfUsers],
+  usersToDisplay: [...listOfUsers.reverse()],
+  editableUser: {},
+  showAddEditModal: false,
   modalType: '',
 }, action) => {
   switch (action.type) {
-    case GET_INITIAL_DATA:
-      let allUsersInArray = [...action.data];
-      return {
-        ...state,
-        allUsers: allUsersInArray,
-        filteredUsers: allUsersInArray,
-      };
     case SHOW_ALL_USERS:
-      console.log('show all users')
-      let displayAllUsers = [...state.filteredUsers]
+      const reverseUsers = [...state.allUsers]
+      const displayAllUsers = [...reverseUsers.reverse()];
       return {
         ...state,
         usersToDisplay: displayAllUsers
       };
     case DELETE_ALL_USERS:
-      let noUsers = []
+      const noUsers = []
       return {
         ...state,
         allUsers: noUsers,
         usersToDisplay: noUsers,
       };
     case ADD_NEW_USER:
-      console.log(state);
       return {
         ...state,
+        editableUser: {
+          id: (state.allUsers[state.allUsers.length - 1].id + 1),
+          name: '',
+          age: '',
+          email: '',
+          relocation: true,
+          imageURL: "https://picsum.photos/300?random&rnd" + +new Date().getTime(),
+          phoneNumber: '',
+        },
         showAddEditModal: true,
         modalType: 'newUser'
       }
@@ -44,11 +45,77 @@ export const userInformationReducer = (state = {
       console.log(state);
       break;
     case EDIT_USER:
-      console.log(state);
+      const foundUser = state.allUsers.filter(user => user.id === action.data);
       return {
         ...state,
+        editableUser: { ...foundUser[0] },
         showAddEditModal: true,
         modalType: 'editUser'
+      }
+    case CANCEL_ADD_EDIT:
+      return {
+        ...state,
+        showAddEditModal: false,
+        modalType: ''
+      }
+    case NAME_EDIT:
+      let editableUser = {
+        ...state.editableUser,
+        name: action.data
+      };
+      return {
+        ...state,
+        editableUser: editableUser,
+      }
+    case AGE_EDIT:
+      let editAge = {
+        ...state.editableUser,
+        age: action.data
+      };
+      return {
+        ...state,
+        editableUser: editAge,
+      }
+    case EMAIL_EDIT:
+      let editMail = {
+        ...state.editableUser,
+        email: action.data
+      };
+      return {
+        ...state,
+        editableUser: editMail,
+      }
+    case PHONE_EDIT:
+      let editPhone = {
+        ...state.editableUser,
+        phoneNumber: action.data.replace(/[^0-9]/g, ''),
+      };
+      return {
+        ...state,
+        editableUser: editPhone,
+      }
+    case SAVE_EDIT:
+      let allUsersReplace = [...state.allUsers];
+      allUsersReplace[allUsersReplace.findIndex(user => user.id === state.editableUser.id)] = { ...state.editableUser };
+
+      return {
+        ...state,
+        usersToDisplay: allUsersReplace,
+        allUsers: allUsersReplace,
+        editableUser: {},
+        showAddEditModal: false,
+        modalType: ''
+      }
+    case SAVE_NEW_USER:
+      const allUsersWithNew = [...state.allUsers];
+      allUsersWithNew.push(state.editableUser);
+      return {
+        ...state,
+        allUsers: allUsersWithNew,
+        usersToDisplay: allUsersWithNew.reverse(),
+        showAddEditModal: false,
+        modalType: '',
+        editableUser: {},
       }
     default:
       return state;

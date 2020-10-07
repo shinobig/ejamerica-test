@@ -4,13 +4,9 @@ import { connect } from 'react-redux';
 import UsersMainContent from './components/usersMainContent/usersMainContent';
 import SideNav from './components/sideNav/sideNav';
 import AddEdotModal from './components/addEditModal/addEditModal';
-import { initialData } from './model/databaseCreation/dataBaseAccess';
 
 class App extends Component {
 
-  componentWillMount(){
-    initialData();
-  }
   render(){
     return (
       <div className="App">
