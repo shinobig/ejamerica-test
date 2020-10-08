@@ -21,6 +21,8 @@ The App is fully responsive!
 3. Run `npm install`
 4. Once it's finished, you can run `npm start` and see the project
 
+Note: You need to be connected to the internet for the application to display properly, since it uses Bootstrap and a random image generator
+
 ### `npm start`
 
 Runs the app in the development mode.<br />
