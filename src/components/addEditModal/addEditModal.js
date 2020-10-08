@@ -1,12 +1,11 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { cancelAddEdit, nameInputHandler, ageInputHandler, emailInputHandler, phoneInputHandler, saveEdit, saveNewUser } from './addEditModalActions';
+import { cancelAddEdit, nameInputHandler, ageInputHandler, emailInputHandler, phoneInputHandler, saveEdit, saveNewUser, relocationInputHandler } from './addEditModalActions';
 
 class addEditModal extends Component {
 
   render() {
-
     const {
       name,
       age,
@@ -21,7 +20,7 @@ class addEditModal extends Component {
       formatNumber = phoneNumber.toString().replace(/(\d{1})(\d{3})(\d{2})(\d{2})(\d{2})/, "+$1($2) $3 $4 $5");
     }
 
-    let title, saveBtn, deleteBtn, errors, enableRelocation;
+    let title, saveBtn, deleteBtn, errors, enableRelocation, relocationInput;
     if (this.props.modalType === 'newUser') {
       title = 'Add New User';
       saveBtn = (<button className="add-edit-modal-form-btn save" onClick={this.props.onSaveNewUserChange}>Save</button>);
@@ -32,14 +31,13 @@ class addEditModal extends Component {
       deleteBtn = (<button className="add-edit-modal-form-btn save" onClick={this.props.onSaveEditChange}>Delete</button>);
     }
 
-    if(this.props.errors.length > 0){
+    if (this.props.errors.length > 0) {
       errors = this.props.errors.map(error => (<p>{error}</p>));
     }
 
-    if(age > 25 && age < 30){
+    if (age > 25 && age < 30) {
       enableRelocation = true;
     }
-
 
     return (
       <div className="col-md-12 add-edit-modal">
@@ -80,7 +78,7 @@ class addEditModal extends Component {
                 <div className="row label-row">
                   <div className="col-md-4 col-xs-12">
                     <label>Relocation</label>
-                    <input type="checkbox" disabled={enableRelocation}></input>
+                    {relocation || "" ? (<input type="checkbox" value={"noRelocate"} onChange={event => this.props.onRelocationInputChange(event)} checked disabled={enableRelocation}></input>) : (<input type="checkbox" value={"relocate"} onChange={event => this.props.onRelocationInputChange(event)} disabled={enableRelocation}></input>)}
                   </div>
                   <div className="col-md-8 col-xs-12 btn-flex-box">
                     {saveBtn}
@@ -92,7 +90,7 @@ class addEditModal extends Component {
                 </div>
               </div>
             </div>
-{errors}
+            {errors}
           </div>
         </div>
       </div>
@@ -115,6 +113,7 @@ const mapDispatchToProps = (dispatch) => {
     onAgeInputChange: (event) => dispatch(ageInputHandler(event)),
     onEmailInputChange: (event) => dispatch(emailInputHandler(event)),
     onPhoneInputChange: (event) => dispatch(phoneInputHandler(event)),
+    onRelocationInputChange: (event) => dispatch(relocationInputHandler(event)),
     onSaveEditChange: () => dispatch(saveEdit()),
     onSaveNewUserChange: () => dispatch(saveNewUser()),
   }

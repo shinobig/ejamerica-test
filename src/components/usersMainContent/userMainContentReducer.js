@@ -1,10 +1,12 @@
 /* eslint-disable */
 import { DELETE_ALL_USERS, SHOW_ALL_USERS, ADD_NEW_USER, CREATE_RANDOM_USER } from '../sideNav/sideNavConstants';
 import { EDIT_USER } from '../userCardComponent/userCardComponentConstants';
-import { CANCEL_ADD_EDIT, SAVE_EDIT, SAVE_NEW_USER, NAME_EDIT, EMAIL_EDIT, AGE_EDIT, PHONE_EDIT } from '../addEditModal/addEditModalConstants';
+import { CANCEL_ADD_EDIT, SAVE_EDIT, SAVE_NEW_USER, NAME_EDIT, EMAIL_EDIT, AGE_EDIT, PHONE_EDIT, RELOCATION_EDIT } from '../addEditModal/addEditModalConstants';
 import { listOfUsers } from '../../model/databaseCreation/listOfUsers';
 import { validateName } from '../utils/auth';
 import { validateAge } from '../utils/ageAuth';
+import { validateEmail } from '../utils/emailAuth';
+import { validatePhone } from '../utils/phoneAuth';
 
 export const userInformationReducer = (state = {
   allUsers: [...listOfUsers],
@@ -59,7 +61,8 @@ export const userInformationReducer = (state = {
       return {
         ...state,
         showAddEditModal: false,
-        modalType: ''
+        modalType: '',
+        errors: [],
       }
     case NAME_EDIT:
       let editableUser = {
@@ -97,15 +100,29 @@ export const userInformationReducer = (state = {
         ...state,
         editableUser: editPhone,
       }
+    case RELOCATION_EDIT:
+      let relocationStatus = {
+        ...state.editableUser,
+        relocation: !state.editableUser.relocation,
+      };
+      return {
+        ...state,
+        editableUser: relocationStatus,
+      }
+      return state;
+      break;
     case SAVE_EDIT:
       // Validate username
       const { nameErrors, validName } = validateName(state.editableUser.name);
       // Validate age
       const { ageError, validAge } = validateAge(state.editableUser.age);
-      if (validName && validAge) {
+      // Validate email
+      const { emailErrors, validEmail } = validateEmail(state.editableUser.email);
+      // Validate Phone
+      const { phoneErrors, validPhone } = validatePhone(state.editableUser.phoneNumber);
+      if (validName && validAge && validEmail && validPhone) {
         let allUsersReplace = [...state.allUsers];
         allUsersReplace[allUsersReplace.findIndex(user => user.id === state.editableUser.id)] = { ...state.editableUser };
-
         return {
           ...state,
           usersToDisplay: allUsersReplace,
@@ -118,42 +135,68 @@ export const userInformationReducer = (state = {
       } else {
 
         let allErrors = [];
-        if (nameErrors.length > 0) {
-          allErrors.push(nameErrors);
+        const pushEditErrorsHandler = (errorHandler) => {
+          if(errorHandler.length > 0){
+            allErrors.push(errorHandler)
+          }
         }
-        if (ageError.length) {
-          allErrors.push(ageError);
+        pushEditErrorsHandler(nameErrors);
+        pushEditErrorsHandler(ageError);
+        pushEditErrorsHandler(emailErrors);
+        pushEditErrorsHandler(phoneErrors);
+        return {
+          ...state,
+          errors: [...allErrors]
+        }
+      }
+      return state;
+    case SAVE_NEW_USER:
+      // Validate username
+      const newValidName = {...validateName(state.editableUser.name)}
+      // Validate age
+      const newValidAge = {...validateAge(state.editableUser.age)}
+      // Validate email
+      const newValidEmail = {...validateEmail(state.editableUser.email)}
+      // Validate Phone
+      const newValidPhone = {...validatePhone(state.editableUser.phoneNumber)}
+      if (newValidName.validName && newValidAge.validAge && newValidEmail.validEmail && newValidPhone.validPhone) {
+
+        const allUsersWithNew = [...state.allUsers];
+        allUsersWithNew.push(state.editableUser);
+        return {
+          ...state,
+          allUsers: allUsersWithNew,
+          usersToDisplay: allUsersWithNew.reverse(),
+          showAddEditModal: false,
+          modalType: '',
+          editableUser: {},
+          errors: [],
+        }
+      } else {
+        
+        let allErrors = [];
+        const pushNewErrorsHandler = (errorHandler) => {
+          if(errorHandler.length > 0){
+            allErrors.push(errorHandler)
+          }
+        }
+        pushNewErrorsHandler(newValidName.nameErrors);
+        pushNewErrorsHandler(newValidAge.ageError);
+        pushNewErrorsHandler(newValidEmail.emailErrors);
+        pushNewErrorsHandler(newValidPhone.phoneErrors);
+
+        const pushErrors = (errorHandler) => {
+          if(errorHandler.length > 0){
+            allErrors.push(errorHandler)
+          }
         }
         return {
           ...state,
           errors: [...allErrors]
         }
       }
-
-      /*
-            let allUsersReplace = [...state.allUsers];
-            allUsersReplace[allUsersReplace.findIndex(user => user.id === state.editableUser.id)] = { ...state.editableUser };
-      
-            return {
-              ...state,
-              usersToDisplay: allUsersReplace,
-              allUsers: allUsersReplace,
-              editableUser: {},
-              showAddEditModal: false,
-              modalType: ''
-            }*/
       return state;
-    case SAVE_NEW_USER:
-      const allUsersWithNew = [...state.allUsers];
-      allUsersWithNew.push(state.editableUser);
-      return {
-        ...state,
-        allUsers: allUsersWithNew,
-        usersToDisplay: allUsersWithNew.reverse(),
-        showAddEditModal: false,
-        modalType: '',
-        editableUser: {},
-      }
+
     default:
       return state;
   }

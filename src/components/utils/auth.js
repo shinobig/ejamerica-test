@@ -1,31 +1,19 @@
-
-const createRegex = letter => (new RegExp(letter, 'gi'));
-
-const letterSearcher = (letters, word) => {
-  let characterFound = false;
-  letters.forEach(letter => {
-    let regex = createRegex(letter);
-    if (regex.test(word)) {
-      characterFound = true;
-    };
-  })
-  return characterFound
-}
-
-const letterRemover = (letters, word) => {
-  let str = word;
-  letters.forEach(letter => {
-    let regex = createRegex(letter);
-    str = str.replace(regex, '');
-  })
-  return str;
-}
+import { letterSearcher, letterRemover } from './regexUtils';
 
 export const validateName = (name) => {
   let validName = true;
   let nameErrors = [];
-
   const invalidName = () => (validName = false);
+
+  if (!name) {
+    nameErrors.push('Name must be composed by 4 words.');
+    invalidName();
+    return {
+      validName,
+      nameErrors
+    }
+  }
+
   const nameArr = name.split(" ");
   if (nameArr.length < 4) {
     nameErrors.push('Name must be composed by 4 words.');
@@ -59,7 +47,7 @@ export const validateName = (name) => {
   }
 
   if (letterRemover(['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'o', 'p', 'u', 'y', 't', 'e', 'm'], nameArr[1]).length > 0) {
-    nameErrors.push('Seccond word can only use these letters “asdfghjklopuytem”.')
+    nameErrors.push('Seccond name can only use these letters “asdfghjklopuytem”.')
     invalidName();
 
     return {
