@@ -9,21 +9,20 @@ export const validatePhone = (phone) => {
     return {
       validPhone,
       phoneErrors,
-    }
+    };
   }
 
-  if(phone.toString().length < 10){
+  if (phone.toString().length < 10) {
     phoneErrors.push('Please add a 10 digit phone number');
     invalidPhone();
     return {
       validPhone,
       phoneErrors,
-    }
+    };
   }
 
   return {
     validPhone,
     phoneErrors,
-  }
-
+  };
 }

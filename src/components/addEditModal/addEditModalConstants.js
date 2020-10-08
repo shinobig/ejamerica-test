@@ -6,3 +6,4 @@ export const AGE_EDIT = "AGE_EDIT";
 export const PHONE_EDIT = "PHONE_EDIT";
 export const EMAIL_EDIT = "EMAIL_EDIT";
 export const RELOCATION_EDIT = "RELOCATION_EDIT";
+export const DELETE_USER = "DELETE_USER";

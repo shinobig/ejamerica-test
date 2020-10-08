@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { showAllUsers, deleteAllUsers, addNewUser } from './sideNavActions';
+import { showAllUsers, deleteAllUsers, addNewUser, createRandomUser } from './sideNavActions';
 import NavBarBtn from '../commonComponents/navBarBtn/navBarBtn';
 
 class SideNav extends Component {
   render() {
     let allNavButtons = [];
     for (let key in this.props) {
-      allNavButtons.push(<NavBarBtn name={this.props[key].name} action={this.props[key].action} key={this.props[key].id}/>)
-    }
+      allNavButtons.push(<NavBarBtn name={this.props[key].name} action={this.props[key].action} key={this.props[key].id} />)
+    };
     return (
       <div className="row side-nav">
         <div className="col-md-12">
@@ -37,11 +37,11 @@ const mapDispatchToProps = (dispatch) => {
       id: 'button-3'
     },
     addRandomUser: {
-      action: () => dispatch(showAllUsers()),
+      action: () => dispatch(createRandomUser()),
       name: 'Add random user',
       id: 'button-4'
     },
-  }
-}
+  };
+};
 
 export default connect(null, mapDispatchToProps)(SideNav);

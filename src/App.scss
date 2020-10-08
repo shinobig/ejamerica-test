@@ -10,6 +10,9 @@ sans-serif;
 $main-text: 'Courier Prime',
 monospace;
 
+// Breakpoints
+$small: 600px;
+
 body {
   background-color: $light-gray;
   font-family: $main-text;
@@ -34,6 +37,15 @@ label {
   background-color: $main-gray;
   padding-top: 3em;
   height: 100vh;
+  @media(max-width: $small){
+    height: 8em;
+    position: fixed;
+    width: 105vw;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    z-index: 99;
+  }
 
   &-btn {
     background-color: $main-gray;
@@ -44,6 +56,13 @@ label {
     margin: .5em 0em .5em 0em;
     border: 1px solid white;
     font-size: 1em;
+
+    @media(max-width: $small){
+      position: relative;
+      max-width: 100%;
+      display: inline;
+      font-size: 1em;;
+    }
   }
 
   &-btn:hover {
@@ -53,6 +72,16 @@ label {
 
 }
 
+.buttons-small{
+  @media(max-width: $small){
+   float: left;
+   padding: 0 .2em 0 .2em;
+  }
+}
+
+.intro-title{
+  text-align: center;
+}
 
 .user-card-component {
   p {
@@ -79,9 +108,14 @@ label {
 
 .add-edit-modal {
   position: fixed;
-  z-index: 99;
+  z-index: 89;
   top: 0;
   left: 0;
+
+  @media(max-width: $small){
+    position: absolute;
+    padding-bottom: 10em;
+   }
 
   &-background {
     width: 100vw;
@@ -103,6 +137,9 @@ label {
     .random-image {
       border: 4px solid $dark-gray;
       margin-top: 24%;
+      @media(max-width: $small){
+        margin-top: 1em;
+       }
     }
 
 
@@ -137,6 +174,12 @@ label {
       margin: 0;
     }
 
+  }
+
+  .relocation-input {
+    position: absolute;
+    top: .7em;
+    left: 3em;
   }
 
   .btn-flex-box {
@@ -177,4 +220,9 @@ label {
     color: $main-gray;
   }
 
+}
+
+.errors {
+  color: red;
+  margin: .5em 0 0 0;
 }

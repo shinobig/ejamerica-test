@@ -1,4 +1,4 @@
-import { CANCEL_ADD_EDIT, SAVE_EDIT, SAVE_NEW_USER, NAME_EDIT, EMAIL_EDIT, AGE_EDIT, PHONE_EDIT, RELOCATION_EDIT } from './addEditModalConstants';
+import { DELETE_USER, CANCEL_ADD_EDIT, SAVE_EDIT, SAVE_NEW_USER, NAME_EDIT, EMAIL_EDIT, AGE_EDIT, PHONE_EDIT, RELOCATION_EDIT } from './addEditModalConstants';
 
 export const cancelAddEdit = () => ({
   type: CANCEL_ADD_EDIT,
@@ -35,4 +35,9 @@ export const phoneInputHandler = (event) => ({
 export const relocationInputHandler = (event) => ({
   type: RELOCATION_EDIT,
   data: event.target.value,
+});
+
+export const deleteUserHandler = (id) => ({
+  type: DELETE_USER,
+  data: id,
 });

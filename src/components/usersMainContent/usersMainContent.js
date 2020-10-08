@@ -8,13 +8,12 @@ class UsersMainContent extends Component {
     return (
       <div className="row">
         <div className="col-md-12 col-xl-12 col-xs-12 main-users-content">
-          <h1>I am the main component for the users</h1>
+          <h2 className="intro-title">I am the main component for the users</h2>
           {userCards}
         </div>
       </div>
     );
   }
-
 }
 
 const mapStateToProps = state => {

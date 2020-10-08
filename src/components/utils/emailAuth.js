@@ -4,7 +4,7 @@ export const validateEmail = (email) => {
   let validEmail = true;
   let emailErrors = [];
   const invalidEmail = () => (validEmail = false);
-  
+
   if (!email) {
     emailErrors.push('Please use a valid email format');
     invalidEmail();
@@ -15,7 +15,6 @@ export const validateEmail = (email) => {
   }
 
   let emailToEdit = email.slice();
-
 
   const re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

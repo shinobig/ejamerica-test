@@ -7,9 +7,9 @@ export const letterSearcher = (letters, word) => {
     if (regex.test(word)) {
       characterFound = true;
     };
-  })
+  });
   return characterFound
-}
+};
 
 export const letterRemover = (letters, word) => {
   let str = word;
@@ -18,4 +18,4 @@ export const letterRemover = (letters, word) => {
     str = str.replace(regex, '');
   })
   return str;
-}
+};

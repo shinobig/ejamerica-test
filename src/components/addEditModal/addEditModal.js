@@ -1,10 +1,8 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { cancelAddEdit, nameInputHandler, ageInputHandler, emailInputHandler, phoneInputHandler, saveEdit, saveNewUser, relocationInputHandler } from './addEditModalActions';
+import { deleteUserHandler, cancelAddEdit, nameInputHandler, ageInputHandler, emailInputHandler, phoneInputHandler, saveEdit, saveNewUser, relocationInputHandler } from './addEditModalActions';
 
 class addEditModal extends Component {
-
   render() {
     const {
       name,
@@ -13,6 +11,7 @@ class addEditModal extends Component {
       phoneNumber,
       relocation,
       imageURL,
+      id
     } = this.props.editableUser
     let formatNumber;
 
@@ -20,7 +19,7 @@ class addEditModal extends Component {
       formatNumber = phoneNumber.toString().replace(/(\d{1})(\d{3})(\d{2})(\d{2})(\d{2})/, "+$1($2) $3 $4 $5");
     }
 
-    let title, saveBtn, deleteBtn, errors, enableRelocation, relocationInput;
+    let title, saveBtn, deleteBtn, errors, enableRelocation;
     if (this.props.modalType === 'newUser') {
       title = 'Add New User';
       saveBtn = (<button className="add-edit-modal-form-btn save" onClick={this.props.onSaveNewUserChange}>Save</button>);
@@ -28,16 +27,16 @@ class addEditModal extends Component {
     } else {
       title = 'Edit User';
       saveBtn = (<button className="add-edit-modal-form-btn save" onClick={this.props.onSaveEditChange}>Save</button>);
-      deleteBtn = (<button className="add-edit-modal-form-btn save" onClick={this.props.onSaveEditChange}>Delete</button>);
+      deleteBtn = (<button className="add-edit-modal-form-btn save" onClick={() => this.props.onDeleteUserChange(id)}>Delete</button>);
     }
 
     if (this.props.errors.length > 0) {
-      errors = this.props.errors.map(error => (<p>{error}</p>));
-    }
+      errors = this.props.errors.map((error,index) => (<p key={`error-${index}`} className="errors">{error}</p>));
+    };
 
     if (age > 25 && age < 30) {
       enableRelocation = true;
-    }
+    };
 
     return (
       <div className="col-md-12 add-edit-modal">
@@ -78,7 +77,7 @@ class addEditModal extends Component {
                 <div className="row label-row">
                   <div className="col-md-4 col-xs-12">
                     <label>Relocation</label>
-                    {relocation || "" ? (<input type="checkbox" value={"noRelocate"} onChange={event => this.props.onRelocationInputChange(event)} checked disabled={enableRelocation}></input>) : (<input type="checkbox" value={"relocate"} onChange={event => this.props.onRelocationInputChange(event)} disabled={enableRelocation}></input>)}
+                    {relocation || "" ? (<input className="relocation-input" type="checkbox" value={"noRelocate"} onChange={event => this.props.onRelocationInputChange(event)} checked disabled={enableRelocation}></input>) : (<input className="relocation-input" type="checkbox" value={"relocate"} onChange={event => this.props.onRelocationInputChange(event)} disabled={enableRelocation}></input>)}
                   </div>
                   <div className="col-md-8 col-xs-12 btn-flex-box">
                     {saveBtn}
@@ -116,6 +115,7 @@ const mapDispatchToProps = (dispatch) => {
     onRelocationInputChange: (event) => dispatch(relocationInputHandler(event)),
     onSaveEditChange: () => dispatch(saveEdit()),
     onSaveNewUserChange: () => dispatch(saveNewUser()),
+    onDeleteUserChange: (id) => dispatch(deleteUserHandler(id))
   }
 }
 
