@@ -38,9 +38,9 @@ export const listOfUsers = [
   {
     id: 5,
     name: 'Daryl Cruickshank',
-    age: 50,
+    age: 28,
     email: 'esther33@gmailvn.net',
-    relocation: true,
+    relocation: false,
     imageURL: "https://picsum.photos/300?random&rnd" + Math.floor(Math.random() * 10000000000),
     phoneNumber: Math.floor(Math.random() * 10000000000),
   },

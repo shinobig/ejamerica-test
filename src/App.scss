@@ -33,7 +33,7 @@ label {
 .side-nav {
   background-color: $main-gray;
   padding-top: 3em;
-  min-height: 100vh;
+  height: 100vh;
 
   &-btn {
     background-color: $main-gray;
@@ -55,8 +55,6 @@ label {
 
 
 .user-card-component {
-
-
   p {
     font-size: .9em;
   }
@@ -130,6 +128,13 @@ label {
       background-color: $light-gray;
       display: block;
       width: 100%;
+      overflow: hidden;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
 
   }

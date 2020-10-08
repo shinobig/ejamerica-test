@@ -36,17 +36,17 @@ export const validateName = (name) => {
     }
   }
 
-  nameArr.forEach(name => {
-    if (name.length < 3 || name.length > 5) {
+  for (let i = 0; i < nameArr.length; i++) {
+    if (nameArr[i].length < 3 || nameArr[i].length > 5) {
+      console.log(nameArr[i]);
       nameErrors.push('Each name must be between 3 and 5 characters.');
       invalidName();
-
       return {
         validName,
         nameErrors
       }
     }
-  });
+  }
 
   if (letterSearcher(['a', 'o', 'u', 'm', 'p'], nameArr[0])) {
     nameErrors.push('First name cannot have “a, o, u, m, p”.');

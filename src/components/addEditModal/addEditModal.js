@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { cancelAddEdit, nameInputHandler, ageInputHandler, emailInputHandler, phoneInputHandler, saveEdit, saveNewUser } from './addEditModalActions';
@@ -20,7 +21,7 @@ class addEditModal extends Component {
       formatNumber = phoneNumber.toString().replace(/(\d{1})(\d{3})(\d{2})(\d{2})(\d{2})/, "+$1($2) $3 $4 $5");
     }
 
-    let title, saveBtn, deleteBtn;
+    let title, saveBtn, deleteBtn, errors, enableRelocation;
     if (this.props.modalType === 'newUser') {
       title = 'Add New User';
       saveBtn = (<button className="add-edit-modal-form-btn save" onClick={this.props.onSaveNewUserChange}>Save</button>);
@@ -30,6 +31,16 @@ class addEditModal extends Component {
       saveBtn = (<button className="add-edit-modal-form-btn save" onClick={this.props.onSaveEditChange}>Save</button>);
       deleteBtn = (<button className="add-edit-modal-form-btn save" onClick={this.props.onSaveEditChange}>Delete</button>);
     }
+
+    if(this.props.errors.length > 0){
+      errors = this.props.errors.map(error => (<p>{error}</p>));
+    }
+
+    if(age > 25 && age < 30){
+      enableRelocation = true;
+    }
+
+
     return (
       <div className="col-md-12 add-edit-modal">
         <div className="add-edit-modal-background"></div>
@@ -69,7 +80,7 @@ class addEditModal extends Component {
                 <div className="row label-row">
                   <div className="col-md-4 col-xs-12">
                     <label>Relocation</label>
-                    <input type="checkbox"></input>
+                    <input type="checkbox" disabled={enableRelocation}></input>
                   </div>
                   <div className="col-md-8 col-xs-12 btn-flex-box">
                     {saveBtn}
@@ -81,6 +92,7 @@ class addEditModal extends Component {
                 </div>
               </div>
             </div>
+{errors}
           </div>
         </div>
       </div>
@@ -92,6 +104,7 @@ const mapStateToProps = (state) => {
   return {
     editableUser: state.userInformationReducer.editableUser,
     modalType: state.userInformationReducer.modalType,
+    errors: state.userInformationReducer.errors,
   }
 }
 

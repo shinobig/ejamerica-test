@@ -12,10 +12,10 @@ class App extends Component {
       <div className="App">
         <div className="row">
           {this.props.showAddEditModal ? (<AddEdotModal />) : ''}
-          <div className="col-md-4 col-xl-2 col-sm-12">
+          <div className="col-md-3 col-xl-2 col-sm-12">
             <SideNav />
           </div>
-          <div className="col-md-8 col-xl-10 col-sm-12">
+          <div className="col-md-9 col-xl-10 col-sm-12">
             <UsersMainContent />
           </div>
         </div> 

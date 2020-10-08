@@ -1,9 +1,10 @@
-
+/* eslint-disable */
 import { DELETE_ALL_USERS, SHOW_ALL_USERS, ADD_NEW_USER, CREATE_RANDOM_USER } from '../sideNav/sideNavConstants';
 import { EDIT_USER } from '../userCardComponent/userCardComponentConstants';
 import { CANCEL_ADD_EDIT, SAVE_EDIT, SAVE_NEW_USER, NAME_EDIT, EMAIL_EDIT, AGE_EDIT, PHONE_EDIT } from '../addEditModal/addEditModalConstants';
 import { listOfUsers } from '../../model/databaseCreation/listOfUsers';
 import { validateName } from '../utils/auth';
+import { validateAge } from '../utils/ageAuth';
 
 export const userInformationReducer = (state = {
   allUsers: [...listOfUsers],
@@ -11,13 +12,7 @@ export const userInformationReducer = (state = {
   editableUser: {},
   showAddEditModal: false,
   modalType: '',
-  errorType: {
-    nameErrors: [],
-    ageErrors: [],
-    relocationErrors: [],
-    phoneErrors: [],
-    emailErrors: [],
-  },
+  errors: [],
 }, action) => {
   switch (action.type) {
     case SHOW_ALL_USERS:
@@ -104,22 +99,49 @@ export const userInformationReducer = (state = {
       }
     case SAVE_EDIT:
       // Validate username
-      let isValidName = validateName(state.editableUser.name);
+      const { nameErrors, validName } = validateName(state.editableUser.name);
+      // Validate age
+      const { ageError, validAge } = validateAge(state.editableUser.age);
+      if (validName && validAge) {
+        let allUsersReplace = [...state.allUsers];
+        allUsersReplace[allUsersReplace.findIndex(user => user.id === state.editableUser.id)] = { ...state.editableUser };
 
-console.log(isValidName);
+        return {
+          ...state,
+          usersToDisplay: allUsersReplace,
+          allUsers: allUsersReplace,
+          editableUser: {},
+          showAddEditModal: false,
+          modalType: '',
+          errors: [],
+        }
+      } else {
 
-/*
-      let allUsersReplace = [...state.allUsers];
-      allUsersReplace[allUsersReplace.findIndex(user => user.id === state.editableUser.id)] = { ...state.editableUser };
+        let allErrors = [];
+        if (nameErrors.length > 0) {
+          allErrors.push(nameErrors);
+        }
+        if (ageError.length) {
+          allErrors.push(ageError);
+        }
+        return {
+          ...state,
+          errors: [...allErrors]
+        }
+      }
 
-      return {
-        ...state,
-        usersToDisplay: allUsersReplace,
-        allUsers: allUsersReplace,
-        editableUser: {},
-        showAddEditModal: false,
-        modalType: ''
-      }*/
+      /*
+            let allUsersReplace = [...state.allUsers];
+            allUsersReplace[allUsersReplace.findIndex(user => user.id === state.editableUser.id)] = { ...state.editableUser };
+      
+            return {
+              ...state,
+              usersToDisplay: allUsersReplace,
+              allUsers: allUsersReplace,
+              editableUser: {},
+              showAddEditModal: false,
+              modalType: ''
+            }*/
       return state;
     case SAVE_NEW_USER:
       const allUsersWithNew = [...state.allUsers];
