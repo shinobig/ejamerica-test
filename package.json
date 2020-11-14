@@ -1,5 +1,6 @@
 {
   "name": "ejamerica-test",
+  "homepage": "http://shinobig.com/reduxproject",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

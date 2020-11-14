@@ -8,7 +8,7 @@ class UsersMainContent extends Component {
     return (
       <div className="row">
         <div className="col-md-12 col-xl-12 col-xs-12 main-users-content">
-          <h2 className="intro-title">I am the main component for the users</h2>
+          <h2 className="intro-title">All the states in this app are managed by Redux!</h2>
           {userCards}
         </div>
       </div>
